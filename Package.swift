@@ -4,7 +4,9 @@ let package = Package(
  name: "FEUtils",
  platforms: [
   .iOS(.v26),
-  .macOS(.v26)
+  .macOS(.v26),
+  .tvOS(.v26),
+  .visionOS(.v26)
  ],
  products: [
   .library(
