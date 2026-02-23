@@ -9,12 +9,12 @@ import Combine
 
 @available(macOS 10.15, *)
 public class AlertManager: ObservableObject {
- @Published var showAlert = false
- @Published var alertTitle = ""
- @Published var alertMessage = ""
- @Published var retryAction: () -> Void = {}
+ @Published var showAlert: Bool
+ @Published var alertTitle: String
+ @Published var alertMessage: String
+ @Published var retryAction: () -> Void
  
- public init(showAlert: Bool = false, alertTitle: String = "", alertMessage: String = "", retryAction: @escaping () -> Void) {
+ public init(showAlert: Bool = false, alertTitle: String = "", alertMessage: String = "", retryAction: @escaping () -> Void = {}) {
   self.showAlert = showAlert
   self.alertTitle = alertTitle
   self.alertMessage = alertMessage
