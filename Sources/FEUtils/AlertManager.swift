@@ -5,7 +5,6 @@
 //  Created by Maciej on 23/02/2026.
 //
 
-import SwiftUI
 import Combine
 
 @available(macOS 10.15, *)
@@ -15,7 +14,14 @@ public class AlertManager: ObservableObject {
  @Published var alertMessage = ""
  @Published var retryAction: () -> Void = {}
  
- func issueAlert(type: AlertType, entityName: String, retryAction: @escaping  () -> Void) {
+ public init(showAlert: Bool = false, alertTitle: String = "", alertMessage: String = "", retryAction: @escaping () -> Void) {
+  self.showAlert = showAlert
+  self.alertTitle = alertTitle
+  self.alertMessage = alertMessage
+  self.retryAction = retryAction
+ }
+ 
+ public func issueAlert(type: AlertType, entityName: String, retryAction: @escaping  () -> Void) {
   if type == .save {
    alertTitle = "Issue occured when saving data"
    alertMessage = "Issue occured when trying to save \(entityName)"
@@ -30,7 +36,7 @@ public class AlertManager: ObservableObject {
   self.showAlert = true
  }
  
- func dismissAlert() {
+ public func dismissAlert() {
   self.showAlert = false
   self.alertTitle = ""
   self.alertMessage = ""
@@ -38,7 +44,7 @@ public class AlertManager: ObservableObject {
  }
 }
 
-enum AlertType {
+public enum AlertType {
  case save
  case fetch
 }
