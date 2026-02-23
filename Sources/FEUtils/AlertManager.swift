@@ -7,7 +7,7 @@
 
 import Combine
 
-@available(macOS 10.15, *)
+@available(macOS 26, *)
 public class AlertManager: ObservableObject {
  @Published public var showAlert: Bool
  @Published public var alertTitle: String
