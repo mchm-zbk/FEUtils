@@ -13,9 +13,9 @@ public class AlertManager: ObservableObject {
  @Published public var isShown: Bool
  @Published public var title: String
  @Published public var message: String
- @Published public var buttons: View
+ @Published public var buttons: [Button<Text>]
  
- public init(isShown: Bool = false, title: String = "", message: String = "", buttons: View = EmptyView()) {
+ public init(isShown: Bool = false, title: String = "", message: String = "", buttons: [Button<Text>] = []) {
   self.isShown = isShown
   self.title = title
   self.message = message
