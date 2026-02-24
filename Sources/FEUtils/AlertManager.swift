@@ -6,42 +6,44 @@
 //
 
 import Combine
-import SwiftUI
 
 @available(macOS 26, *)
-public class AlertManager<AlertButtons>: ObservableObject where AlertButtons: View {
- @Published public var isShown: Bool
+public class AlertManager: ObservableObject {
+ @Published public var isPresented: Bool
  @Published public var title: String
  @Published public var message: String
- @Published public var buttons: AlertButtons
+ @Published public var retryAction: () -> Void
  
- public init(isShown: Bool = false, title: String = "", message: String = "", @ViewBuilder buttons: () -> AlertButtons = {EmptyView()}) {
-  self.isShown = isShown
+ public init(isPresented: Bool = false, title: String = "", message: String = "", retryAction: @escaping () -> Void = {}) {
+  self.isPresented = isPresented
   self.title = title
   self.message = message
-  self.buttons = buttons()
+  self.retryAction = retryAction
  }
  
- public func issueAlert(type: AlertType, entityName: String, @ViewBuilder buttons: () -> AlertButtons) {
+ public func issueAlert(type: AlertType, entityName: String, retryAction: @escaping  () -> Void) {
+  title = "Issue occured when "
+  message = "Issue occured when trying to "
+  
   if type == .save {
-   title = "Issue occured when saving data"
-   message = "Issue occured when trying to save \(entityName)"
+   title += "saving data"
+   message += "save \(entityName)"
   }
   
   if type == .fetch {
-   title = "Issue occured when downloading data"
-   message = "Issue occured when trying to download \(entityName)"
+   title += "downloading data"
+   message += "download \(entityName)"
   }
   
-  self.buttons = buttons()
-  self.isShown = true
+  self.retryAction = retryAction
+  isPresented = true
  }
  
  public func dismissAlert() {
-  self.isShown = false
-  self.title = ""
-  self.message = ""
-  self.buttons = EmptyView() as! AlertButtons
+  isPresented = false
+  title = ""
+  message = ""
+  retryAction = {}
  }
 }
 
