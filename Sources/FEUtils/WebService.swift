@@ -8,10 +8,10 @@
 import Foundation
 
 @available(macOS 26, *)
-struct WebService {
+public struct WebService {
  var request: URLRequest
  
- init (url: URL) {
+ public init (url: URL) {
   self.request = URLRequest(url: url)
   self.request.setValue("application/json", forHTTPHeaderField: "Content-Type")
  }
