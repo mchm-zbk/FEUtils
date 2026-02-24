@@ -16,7 +16,7 @@ public struct WebService {
   self.request.setValue("application/json", forHTTPHeaderField: "Content-Type")
  }
  
- mutating func get<T: Codable>() async throws -> T {
+ mutating public func get<T: Codable>() async throws -> T {
   request.httpMethod = "GET"
   
   let (data, response) = try await URLSession.shared.data(for: request)
@@ -32,7 +32,7 @@ public struct WebService {
   return decodedResponse
  }
  
- mutating func post<T: Codable>(payload: T) async throws -> T {
+ mutating public func post<T: Codable>(payload: T) async throws -> T {
   request.httpMethod = "POST"
   
   guard let encoded = try? JSONEncoder().encode(payload) else {
@@ -51,7 +51,7 @@ public struct WebService {
  }
  
  //ToDo: This is basically the same as POST, I have to combine them somehow
- mutating func put<T: Codable>(payload: T) async throws -> T {
+ mutating public func put<T: Codable>(payload: T) async throws -> T {
   request.httpMethod = "PUT"
   
   guard let encoded = try? JSONEncoder().encode(payload) else {
@@ -69,7 +69,7 @@ public struct WebService {
   return decodedResponse
  }
  
- mutating func basicRequest(method: ReqMethod) async throws {
+ mutating public func basicRequest(method: ReqMethod) async throws {
   request.httpMethod = method.rawValue
   
   let (_, response) = try await URLSession.shared.data(for: request)
@@ -91,7 +91,7 @@ public struct WebService {
   }
  }
  
- enum ReqMethod: String {
+ public enum ReqMethod: String {
   case post = "POST"
   case put = "PUT"
   case delete = "DELETE"
