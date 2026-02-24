@@ -9,20 +9,20 @@ import Combine
 import SwiftUI
 
 @available(macOS 26, *)
-public class AlertManager: ObservableObject {
+public class AlertManager<AlertButtons>: ObservableObject where AlertButtons: View {
  @Published public var isShown: Bool
  @Published public var title: String
  @Published public var message: String
- @Published public var buttons: [Button<Text>]
+ @Published public var buttons: AlertButtons
  
- public init(isShown: Bool = false, title: String = "", message: String = "", buttons: [Button<Text>] = []) {
+ public init(isShown: Bool = false, title: String = "", message: String = "", @ViewBuilder buttons: () -> AlertButtons = {EmptyView()}) {
   self.isShown = isShown
   self.title = title
   self.message = message
-  self.buttons = buttons
+  self.buttons = buttons()
  }
  
- public func issueAlert(type: AlertType, entityName: String, buttons: @escaping () -> any View) {
+ public func issueAlert(type: AlertType, entityName: String, @ViewBuilder buttons: () -> AlertButtons) {
   if type == .save {
    title = "Issue occured when saving data"
    message = "Issue occured when trying to save \(entityName)"
@@ -33,7 +33,7 @@ public class AlertManager: ObservableObject {
    message = "Issue occured when trying to download \(entityName)"
   }
   
-  self.buttons = buttons
+  self.buttons = buttons()
   self.isShown = true
  }
  
@@ -41,7 +41,7 @@ public class AlertManager: ObservableObject {
   self.isShown = false
   self.title = ""
   self.message = ""
-  self.buttons = nil
+  self.buttons = EmptyView() as! AlertButtons
  }
 }
 
