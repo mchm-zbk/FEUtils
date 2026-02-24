@@ -6,41 +6,42 @@
 //
 
 import Combine
+import SwiftUI
 
 @available(macOS 26, *)
 public class AlertManager: ObservableObject {
- @Published public var showAlert: Bool
- @Published public var alertTitle: String
- @Published public var alertMessage: String
- @Published public var retryAction: () -> Void
+ @Published public var isShown: Bool
+ @Published public var title: String
+ @Published public var message: String
+ @Published public var buttons: (() -> any View)?
  
- public init(showAlert: Bool = false, alertTitle: String = "", alertMessage: String = "", retryAction: @escaping () -> Void = {}) {
-  self.showAlert = showAlert
-  self.alertTitle = alertTitle
-  self.alertMessage = alertMessage
-  self.retryAction = retryAction
+ public init(isShown: Bool = false, title: String = "", message: String = "", buttons: (() -> any View)? = nil) {
+  self.isShown = isShown
+  self.title = title
+  self.message = message
+  self.buttons = buttons
  }
  
- public func issueAlert(type: AlertType, entityName: String, retryAction: @escaping  () -> Void) {
+ public func issueAlert(type: AlertType, entityName: String, buttons: @escaping () -> any View) {
   if type == .save {
-   alertTitle = "Issue occured when saving data"
-   alertMessage = "Issue occured when trying to save \(entityName)"
+   title = "Issue occured when saving data"
+   message = "Issue occured when trying to save \(entityName)"
   }
   
   if type == .fetch {
-   alertTitle = "Issue occured when downloading data"
-   alertMessage = "Issue occured when trying to download \(entityName)"
+   title = "Issue occured when downloading data"
+   message = "Issue occured when trying to download \(entityName)"
   }
   
-  self.retryAction = retryAction
-  self.showAlert = true
+  self.buttons = buttons
+  self.isShown = true
  }
  
  public func dismissAlert() {
-  self.showAlert = false
-  self.alertTitle = ""
-  self.alertMessage = ""
-  self.retryAction = {}
+  self.isShown = false
+  self.title = ""
+  self.message = ""
+  self.buttons = nil
  }
 }
 
