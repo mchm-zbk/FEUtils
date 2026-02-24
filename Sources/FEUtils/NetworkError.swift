@@ -5,7 +5,7 @@
 //  Created by Maciej on 24/02/2026.
 //
 
-enum NetworkError: Error {
+public enum NetworkError: Error {
  case badUrl
  case invalidRequest
  case badResponse
