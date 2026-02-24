@@ -27,7 +27,7 @@ func getURL(type: URLType, path: String? = nil, params: [Int]? = nil) -> URL {
  return URL(string: urlString)!
 }
 
-enum URLType: String {
+public enum URLType: String {
  case lists = "/shoppingLists"
  case categorizedProducts = "/products/categorized"
  case listProducts = "/listProducts"

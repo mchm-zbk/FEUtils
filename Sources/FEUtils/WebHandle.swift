@@ -10,13 +10,15 @@ import SwiftUI
 
 @available(macOS 26, *)
 public struct WebHandle {
- func get<T: Codable>(urlType: URLType, path: String? = nil) async throws -> T {
+ public init(){}
+ 
+ public func get<T: Codable>(urlType: URLType, path: String? = nil) async throws -> T {
   var webService = configure(urlType: urlType, path: path)
   
   return try await webService.get()
  }
  
- func get<T: Codable>(byId id: Int, urlType: URLType) async throws -> T {
+ public func get<T: Codable>(byId id: Int, urlType: URLType) async throws -> T {
   let url = getURL(type: urlType, params: [id])
   
   var webService = WebService(url: url)
@@ -24,19 +26,19 @@ public struct WebHandle {
   return try await webService.get()
  }
  
- func put<T: Puttable>(payload: T, urlType: URLType) async throws -> T {
+ public func put<T: Puttable>(payload: T, urlType: URLType) async throws -> T {
   var webService = configure(urlType: urlType)
   
   return try await webService.put(payload: payload)
  }
  
- func post<T: Codable>( payload: T, urlType: URLType) async throws -> T {
+ public func post<T: Codable>( payload: T, urlType: URLType) async throws -> T {
   var webService = configure(urlType: urlType)
   
   return try await webService.post(payload: payload)
  }
  
- func delete(urlType: URLType, path: String? = nil) async throws {
+ public func delete(urlType: URLType, path: String? = nil) async throws {
   let url = getURL(type: .schedules, path: path)
   
   var webService = WebService(url: url)
