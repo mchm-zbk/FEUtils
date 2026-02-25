@@ -21,7 +21,7 @@ public class AlertManager: ObservableObject {
   self.retryAction = retryAction
  }
  
- public func issueAlert(type: AlertType, entityName: String, retryAction: @escaping  () -> Void) {
+ public func issueAlert(type: AlertType, entityName: String, retryAction: @escaping  () async -> Void) {
   title = "Issue occured when "
   message = "Issue occured when trying to "
   
