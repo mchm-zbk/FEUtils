@@ -12,9 +12,9 @@ public class AlertManager: ObservableObject {
  @Published public var isPresented: Bool
  @Published public var title: String
  @Published public var message: String
- @Published public var retryAction: () async throws -> Void
+ @Published public var retryAction: () async -> Void
  
- public init(isPresented: Bool = false, title: String = "", message: String = "", retryAction: @escaping () -> Void = {}) {
+ public init(isPresented: Bool = false, title: String = "", message: String = "", retryAction: @escaping () async -> Void = {}) {
   self.isPresented = isPresented
   self.title = title
   self.message = message
