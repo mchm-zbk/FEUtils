@@ -11,9 +11,9 @@ import Foundation
 public struct WebService {
  var request: URLRequest
  
- public init (url: URL) {
-  self.request = URLRequest(url: url)
-  self.request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+ public init (url: URL, alertManager: AlertManager) {
+  request = URLRequest(url: url)
+  request.setValue("application/json", forHTTPHeaderField: "Content-Type")
  }
  
  mutating public func get<T: Codable>() async throws -> T {
@@ -23,23 +23,17 @@ public struct WebService {
   
   try checkResponse(response: response)
   
-  guard
-   let decodedResponse = try? JSONDecoder().decode(T.self, from: data)
-  else {
-   throw NetworkError.failedToDecodeResponse
-  }
-  
-  return decodedResponse
+  return try JSONDecoder().decode(T.self, from: data)
  }
  
- mutating public func post<T: Codable>(payload: T) async throws -> T {
-  request.httpMethod = "POST"
+ mutating public func upload<T: Codable>(payload: T, httpMethod: HTTPUploadMethod) async throws -> T {
+  request.httpMethod = httpMethod.rawValue
   
-  guard let encoded = try? JSONEncoder().encode(payload) else {
+  guard let encodedPayload = try? JSONEncoder().encode(payload) else {
    throw NetworkError.failedToEncodePayload
   }
   
-  let (data, response) = try await URLSession.shared.upload(for: request, from: encoded)
+  let (data, response) = try await URLSession.shared.upload(for: request, from: encodedPayload)
   
   try checkResponse(response: response)
   
@@ -49,27 +43,8 @@ public struct WebService {
   
   return decodedResponse
  }
- 
- //ToDo: This is basically the same as POST, I have to combine them somehow
- mutating public func put<T: Codable>(payload: T) async throws -> T {
-  request.httpMethod = "PUT"
   
-  guard let encoded = try? JSONEncoder().encode(payload) else {
-   throw NetworkError.failedToEncodePayload
-  }
-  
-  let (data, response) = try await URLSession.shared.upload(for: request, from: encoded)
-  
-  try checkResponse(response: response)
-  
-  guard let decodedResponse = try? JSONDecoder().decode(T.self, from: data) else {
-   throw NetworkError.failedToDecodeResponse
-  }
-  
-  return decodedResponse
- }
- 
- mutating public func basicRequest(method: ReqMethod) async throws {
+ mutating public func change(method: HTTPMethod) async throws {
   request.httpMethod = method.rawValue
   
   let (_, response) = try await URLSession.shared.data(for: request)
@@ -91,9 +66,19 @@ public struct WebService {
   }
  }
  
- public enum ReqMethod: String {
+ public enum HTTPMethod: String {
   case post = "POST"
   case put = "PUT"
   case delete = "DELETE"
  }
+ 
+ public enum HTTPUploadMethod: String {
+  case post = "POST"
+  case put = "PUT"
+ }
+}
+
+@available(macOS 26, *)
+public protocol Puttable: Codable, Identifiable {
+ var id: Int? { get }
 }

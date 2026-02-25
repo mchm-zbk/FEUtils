@@ -8,26 +8,23 @@
 
 import Foundation
 
-public func getURL(type: URLType, path: String? = nil, params: [Int]? = nil) -> URL {
+public func buildURL(resource:  Resource, path: String? = nil) throws -> URL {
  let host = "http://127.0.0.1:8080"
  
- var urlString = host + type.rawValue
+ var urlString = host + resource.rawValue
  
  if let path = path {
   urlString += path
  }
  
- if let params = params {
-  for param in params {
-   urlString += "/\(param)"
-  }
+ guard let encodedURL = URL(string: urlString) else {
+  throw NetworkError.badUrl
  }
  
- //ToDo: Fix this force unwrapping
- return URL(string: urlString)!
+ return encodedURL
 }
 
-public enum URLType: String {
+public enum Resource: String {
  case lists = "/shoppingLists"
  case categorizedProducts = "/products/categorized"
  case listProducts = "/listProducts"
