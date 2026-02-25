@@ -11,7 +11,7 @@ import Foundation
 public struct WebService {
  var request: URLRequest
  
- public init (url: URL, alertManager: AlertManager) {
+ public init (url: URL) {
   request = URLRequest(url: url)
   request.setValue("application/json", forHTTPHeaderField: "Content-Type")
  }
