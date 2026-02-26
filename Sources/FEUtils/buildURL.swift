@@ -8,7 +8,7 @@
 
 import Foundation
 
-public func buildURL(resource:  Resource, path: String? = nil) throws -> URL {
+public func buildURL(resource:  Resource, path: String? = nil) -> URL {
  let host = "http://127.0.0.1:8080"
  
  var urlString = host + resource.rawValue
