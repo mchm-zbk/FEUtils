@@ -17,11 +17,7 @@ public func buildURL(resource:  Resource, path: String? = nil) throws -> URL {
   urlString += path
  }
  
- guard let encodedURL = URL(string: urlString) else {
-  throw NetworkError.badUrl
- }
- 
- return encodedURL
+return URL(string: urlString)!
 }
 
 public enum Resource: String {
