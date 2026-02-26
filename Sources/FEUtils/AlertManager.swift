@@ -12,16 +12,14 @@ public class AlertManager: ObservableObject {
  @Published public var isPresented: Bool
  @Published public var title: String
  @Published public var message: String
- @Published public var retryAction: () async -> Void
  
- public init(isPresented: Bool = false, title: String = "", message: String = "", retryAction: @escaping () async -> Void = {}) {
+ public init(isPresented: Bool = false, title: String = "", message: String = "") {
   self.isPresented = isPresented
   self.title = title
   self.message = message
-  self.retryAction = retryAction
  }
  
- public func issueAlert(type: AlertType, entityName: String, retryAction: @escaping  () async -> Void) {
+ public func issueAlert(type: AlertType, entityName: String) {
   title = "Issue occured when "
   message = "Issue occured when trying to "
   
@@ -35,7 +33,6 @@ public class AlertManager: ObservableObject {
    message += "download \(entityName)"
   }
   
-  self.retryAction = retryAction
   isPresented = true
  }
  
@@ -43,7 +40,6 @@ public class AlertManager: ObservableObject {
   isPresented = false
   title = ""
   message = ""
-  retryAction = {}
  }
 }
 
