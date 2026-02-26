@@ -9,5 +9,9 @@ import Combine
 
 @available(macOS 26, *)
 public class AlertManager: ObservableObject {
- @Published public var isPresented = false
+ @Published public var isPresented: Bool
+ 
+ public init(isPresented: Bool = false) {
+  self.isPresented = isPresented
+ }
 }
