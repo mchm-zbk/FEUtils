@@ -7,21 +7,20 @@
 
 import SwiftUI
 
-// ToDo: Rename it to Searchable
 @available(macOS 26, *)
-public protocol SearchablePage: View {
- associatedtype Item: SearchableByName
+public protocol Searchable: View {
+ associatedtype SearchItem: SearchableByName
  var searchQuery: String {get}
- var allItems: [Item] {get}
+ var searchItems: [SearchItem] {get}
 }
 
 @available(macOS 26, *)
-public extension SearchablePage {
- var searchResults: [Item] {
+public extension Searchable {
+ var searchResults: [SearchItem] {
   if searchQuery.isEmpty {
-   return allItems
+   return searchItems
   } else {
-   return allItems.filter({ item in
+   return searchItems.filter({ item in
     item.nameContains(searchQuery)
    })
   }
