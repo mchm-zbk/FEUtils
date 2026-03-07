@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// ToDo: Rename it to Searchable
 @available(macOS 26, *)
 public protocol SearchablePage: View {
  associatedtype Item: SearchableByName

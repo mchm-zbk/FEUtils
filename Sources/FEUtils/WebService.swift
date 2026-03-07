@@ -26,6 +26,7 @@ public struct WebService {
   return try JSONDecoder().decode(T.self, from: data)
  }
  
+ // ToDo: Should I return T? Maybe it should just be 200?
  mutating public func upload<T: Codable>(payload: T, httpMethod: HTTPUploadMethod) async throws -> T {
   request.httpMethod = httpMethod.rawValue
   
