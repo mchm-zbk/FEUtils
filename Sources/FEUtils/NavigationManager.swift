@@ -11,4 +11,8 @@ import SwiftUI
 @available(macOS 26, *)
 public class NavigationManager: ObservableObject {
  @Published var path = NavigationPath()
+ 
+ public init(path: NavigationPath = NavigationPath()) {
+  self.path = path
+ }
 }
