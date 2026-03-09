@@ -10,7 +10,7 @@ import Foundation
 @available(macOS 26, *)
 public protocol Hydrated {
  associatedtype FetchedData: Codable
- var hydrationUrl: URL {get set}
+ var hydrationUrl: URL {get}
  var alertManager: AlertManager {get}
  func hydrate() async
 }
