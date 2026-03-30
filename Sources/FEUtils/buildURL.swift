@@ -5,13 +5,14 @@
 //  Created by Maciej on 24/02/2026.
 //
 
-
 import Foundation
 
 public func buildURL(resource:  Resource, path: String? = nil) -> URL {
- let host = "http://127.0.0.1:8080"
+ guard let apiHostname = ProcessInfo.processInfo.environment["API_HOSTNAME"] else {
+  fatalError("Couldn't find API_HOSTNAME")
+ }
  
- var urlString = host + resource.rawValue
+ var urlString = apiHostname + resource.rawValue
  
  if let path = path {
   urlString += path
