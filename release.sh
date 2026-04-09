@@ -1,5 +1,7 @@
 git ac "Minor change"
 
+git push
+
 currentTagRaw=$(gh release list -L 1 --json tagName | jq ".[0].tagName")
 
 currentTag=${currentTagRaw//\"/}
