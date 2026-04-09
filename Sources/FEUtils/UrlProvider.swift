@@ -21,7 +21,7 @@ public class UrlProvider {
   let hostname =
   switch env {
   case .dev:
-   "127.0.0.1:8080"
+   "http://127.0.0.1:8080"
   case .prod:
    "https://hh.mchm.pl:8081"
   }
