@@ -17,7 +17,8 @@ public protocol Hydrated {
 
 @available(macOS 26, *)
 public extension Hydrated {
- func fetch() async -> FetchedData? {
+ //Without @MainActor alerts were not displayed when errors occured and I had this error in XCode - "Publishing changes from background threads is not allowed; make sure to publish values from the main thread (via operators like receive(on:)) on model updates."
+ @MainActor func fetch() async -> FetchedData? {
   do {
    var webService = WebService(url: hydrationUrl)
    
