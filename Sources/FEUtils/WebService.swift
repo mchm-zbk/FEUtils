@@ -7,6 +7,7 @@
 
 import Foundation
 
+//ToDo: Shouldn't this be a singleton?
 @available(macOS 26, *)
 public struct WebService {
  var request: URLRequest
