@@ -23,7 +23,7 @@ public class UrlProvider {
   case .dev:
    "http://127.0.0.1:8080"
   case .prod:
-   "https://hh.mchm.pl:8081"
+   "https://hh.mchm.pl"
   }
   
   var urlString = hostname + resource.rawValue
